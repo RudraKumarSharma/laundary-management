@@ -61,6 +61,16 @@ Netlify can host the React frontend, but it cannot run this Node.js server direc
 
 Without `VITE_API_BASE_URL`, the frontend will call `/orders` and `/dashboard` on the Netlify site itself, which returns the HTML 404 page you saw in the console.
 
+### Clerk Production Note
+
+If you deploy the app publicly, do not use the development Clerk publishable key from localhost testing. In the Clerk dashboard:
+
+- Add your Netlify domain under allowed origins / application domains.
+- Create or copy the production publishable key.
+- Set that production key as `VITE_CLERK_PUBLISHABLE_KEY` in Netlify.
+
+The browser warning about `__clerk_test_etld` and development keys usually means the app is running on a deployed domain with a dev key or missing Clerk domain configuration.
+
 ### 5. Useful Scripts
 
 - npm start: Build + run production server
