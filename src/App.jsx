@@ -76,8 +76,12 @@ function garmentSummary(garments) {
   return garments.map((item) => `${item.name} x${item.quantity}`).join(", ");
 }
 
+function createGarmentRowId() {
+  return `garment-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 function defaultGarment() {
-  return { name: "", quantity: 1, price_per_item: 50 };
+  return { id: createGarmentRowId(), name: "", quantity: 1, price_per_item: 50 };
 }
 
 export default function App() {
@@ -428,51 +432,68 @@ export default function App() {
                     <div className="flex flex-col gap-4">
                       {form.garments.map((garment, index) => (
                         <div
-                          key={`${index}-${garment.name}`}
-                          className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center flex-wrap xl:flex-nowrap"
+                          key={garment.id}
+                          className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end flex-wrap xl:flex-nowrap"
                         >
-                          <input
-                            name="garment_name"
-                            type="text"
-                            placeholder="Shirt"
-                            value={garment.name}
-                            onChange={(event) =>
-                              updateGarment(index, "name", event.target.value)
-                            }
-                            required
-                            className="flex-grow bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner min-w-[120px]"
-                          />
-                          <input
-                            name="quantity"
-                            type="number"
-                            min="1"
-                            value={garment.quantity}
-                            onChange={(event) =>
-                              updateGarment(
-                                index,
-                                "quantity",
-                                Number(event.target.value),
-                              )
-                            }
-                            required
-                            className="w-full sm:w-24 bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
-                          />
-                          <input
-                            name="price_per_item"
-                            type="number"
-                            min="0.01"
-                            step="0.01"
-                            value={garment.price_per_item}
-                            onChange={(event) =>
-                              updateGarment(
-                                index,
-                                "price_per_item",
-                                Number(event.target.value),
-                              )
-                            }
-                            required
-                            className="w-full sm:w-28 bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
-                          />
+                          <label className="flex flex-col gap-2 flex-grow min-w-[150px]">
+                            <span className="text-base font-medium text-neutral-400 pl-1">
+                              Garment name
+                            </span>
+                            <input
+                              name="garment_name"
+                              type="text"
+                              placeholder="Garment name"
+                              value={garment.name}
+                              onChange={(event) =>
+                                updateGarment(index, "name", event.target.value)
+                              }
+                              required
+                              className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
+                            />
+                          </label>
+                          <label className="flex flex-col gap-2 w-full sm:w-28">
+                            <span className="text-base font-medium text-neutral-400 pl-1">
+                              Quantity
+                            </span>
+                            <input
+                              name="quantity"
+                              type="number"
+                              min="1"
+                              placeholder="Quantity"
+                              value={garment.quantity}
+                              onChange={(event) =>
+                                updateGarment(
+                                  index,
+                                  "quantity",
+                                  Number(event.target.value),
+                                )
+                              }
+                              required
+                              className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
+                            />
+                          </label>
+                          <label className="flex flex-col gap-2 w-full sm:w-32">
+                            <span className="text-base font-medium text-neutral-400 pl-1">
+                              Price
+                            </span>
+                            <input
+                              name="price_per_item"
+                              type="number"
+                              min="0.01"
+                              step="0.01"
+                              placeholder="Price"
+                              value={garment.price_per_item}
+                              onChange={(event) =>
+                                updateGarment(
+                                  index,
+                                  "price_per_item",
+                                  Number(event.target.value),
+                                )
+                              }
+                              required
+                              className="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
+                            />
+                          </label>
                           <button
                             type="button"
                             onClick={() => removeGarment(index)}
