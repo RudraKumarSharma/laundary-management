@@ -9,6 +9,15 @@ import {
 } from "@clerk/react";
 
 const statusValues = ["RECEIVED", "PROCESSING", "READY", "DELIVERED"];
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() || "";
+
+function resolveApiUrl(pathname) {
+  if (!apiBaseUrl) {
+    return pathname;
+  }
+
+  return new URL(pathname, apiBaseUrl).toString();
+}
 
 function statusBadgeClass(status) {
   if (status === "DELIVERED") {
@@ -27,7 +36,7 @@ function statusBadgeClass(status) {
 }
 
 async function requestJson(url, options = {}) {
-  const response = await fetch(url, {
+  const response = await fetch(resolveApiUrl(url), {
     ...options,
     headers: {
       "Content-Type": "application/json",

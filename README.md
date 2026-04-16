@@ -26,6 +26,12 @@ VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 MONGODB_URI=your_mongodb_connection_string
 ```
 
+If you deploy the frontend to Netlify, also set:
+
+```bash
+VITE_API_BASE_URL=https://your-backend-domain.example
+```
+
 Example MongoDB Atlas URI:
 
 ```bash
@@ -43,6 +49,17 @@ This command:
 - Builds the React app with Vite
 - Starts the Node.js server
 - Serves the app at http://127.0.0.1:3000
+
+### Netlify Deployment Note
+
+Netlify can host the React frontend, but it cannot run this Node.js server directly as a persistent backend. To deploy successfully:
+
+1. Deploy the backend (`server.js`) to a Node host such as Render, Railway, Fly.io, or a VPS.
+2. Set `MONGODB_URI` on the backend host.
+3. Set `VITE_API_BASE_URL` in Netlify to the backend URL.
+4. Deploy the frontend to Netlify as the static site.
+
+Without `VITE_API_BASE_URL`, the frontend will call `/orders` and `/dashboard` on the Netlify site itself, which returns the HTML 404 page you saw in the console.
 
 ### 5. Useful Scripts
 
