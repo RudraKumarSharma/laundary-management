@@ -1,0 +1,512 @@
+<html lang="en" class="antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laundry Desk - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body
+    class="bg-neutral-950 text-neutral-50 font-sans min-h-screen flex flex-col selection:bg-blue-500/30 vsc-initialized"
+  >
+    <main
+      class="md:p-8 flex flex-col md:gap-10 w-full max-w-[1400px] mr-auto ml-auto pt-4 pr-4 pb-4 pl-4 gap-x-8 gap-y-8"
+    >
+      <!-- Header -->
+      <header class="flex flex-col gap-3 pt-4 md:pt-6">
+        <h1
+          class="text-4xl md:text-5xl font-semibold tracking-tight text-white"
+        >
+          Laundry Desk
+        </h1>
+        <p class="text-lg text-neutral-400 max-w-3xl leading-relaxed">
+          A lightweight dry-cleaning order system with order creation, status
+          tracking, billing, search, and a dashboard.
+        </p>
+      </header>
+
+      <!-- Two Column Layout: Summary & Create Order -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
+        <!-- Summary -->
+        <section
+          class="h-full bg-neutral-900/80 border-neutral-800 border rounded-3xl p-6 md:p-8 flex flex-col backdrop-blur-xl"
+        >
+          <h2
+            class="md:mb-8 text-2xl font-semibold text-white tracking-tight mb-6"
+          >
+            Summary
+          </h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 h-full">
+            <div
+              class="bg-neutral-950/50 border border-neutral-800/50 rounded-3xl p-5 flex flex-col items-center justify-center text-center transition-transform hover:scale-[1.02] duration-300"
+            >
+              <span
+                id="totalOrders"
+                class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2"
+                >0</span
+              >
+              <span
+                class="text-sm font-medium text-neutral-500 tracking-wider uppercase"
+                >Total Orders</span
+              >
+            </div>
+            <div
+              class="bg-neutral-950/50 border border-neutral-800/50 rounded-3xl p-5 flex flex-col items-center justify-center text-center transition-transform hover:scale-[1.02] duration-300"
+            >
+              <span
+                id="totalRevenue"
+                class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2"
+                >0.00</span
+              >
+              <span
+                class="text-sm font-medium text-neutral-500 tracking-wider uppercase"
+                >Revenue</span
+              >
+            </div>
+            <div
+              class="bg-neutral-950/50 border border-neutral-800/50 rounded-3xl p-5 flex flex-col items-center justify-center text-center transition-transform hover:scale-[1.02] duration-300"
+            >
+              <span
+                id="receivedCount"
+                class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2"
+                >0</span
+              >
+              <span
+                class="text-sm font-medium text-neutral-500 tracking-wider uppercase"
+                >Received</span
+              >
+            </div>
+            <div
+              class="bg-neutral-950/50 border border-neutral-800/50 rounded-3xl p-5 flex flex-col items-center justify-center text-center transition-transform hover:scale-[1.02] duration-300"
+            >
+              <span
+                id="processingCount"
+                class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2"
+                >0</span
+              >
+              <span
+                class="text-sm font-medium text-neutral-500 tracking-wider uppercase"
+                >Processing</span
+              >
+            </div>
+            <div
+              class="bg-neutral-950/50 border border-neutral-800/50 rounded-3xl p-5 flex flex-col items-center justify-center text-center transition-transform hover:scale-[1.02] duration-300"
+            >
+              <span
+                id="readyCount"
+                class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2"
+                >0</span
+              >
+              <span
+                class="text-sm font-medium text-neutral-500 tracking-wider uppercase"
+                >Ready</span
+              >
+            </div>
+            <div
+              class="bg-neutral-950/50 border border-neutral-800/50 rounded-3xl p-5 flex flex-col items-center justify-center text-center transition-transform hover:scale-[1.02] duration-300"
+            >
+              <span
+                id="deliveredCount"
+                class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-2"
+                >0</span
+              >
+              <span
+                class="text-sm font-medium text-neutral-500 tracking-wider uppercase"
+                >Delivered</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- Create Order -->
+        <section
+          class="h-full bg-neutral-900/80 border-neutral-800 border rounded-3xl p-6 md:p-8 flex flex-col backdrop-blur-xl"
+        >
+          <div class="w-full flex flex-col h-full">
+            <h2 class="text-2xl font-semibold tracking-tight text-white mb-8">
+              Create Order
+            </h2>
+            <form
+              id="createOrderForm"
+              class="flex flex-col gap-6 flex-grow justify-between"
+            >
+              <div class="flex flex-col gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  <div class="flex flex-col gap-2">
+                    <label class="text-base font-medium text-neutral-400 pl-1"
+                      >Customer name</label
+                    >
+                    <input
+                      name="customer_name"
+                      type="text"
+                      placeholder="Amina Khan"
+                      required
+                      class="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <label class="text-base font-medium text-neutral-400 pl-1"
+                      >Phone number</label
+                    >
+                    <input
+                      name="phone_number"
+                      type="tel"
+                      placeholder="9876543210"
+                      required
+                      class="w-full bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
+                    />
+                  </div>
+                </div>
+
+                <div id="garmentsList" class="flex flex-col gap-4"></div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-4 pt-4 mt-auto">
+                <button
+                  id="addGarment"
+                  type="button"
+                  class="px-6 py-3.5 rounded-2xl bg-neutral-800 text-white hover:bg-neutral-700 transition-colors text-base font-medium shadow-sm flex items-center gap-2"
+                >
+                  <i data-lucide="plus" stroke-width="1.5" class="w-5 h-5"></i>
+                  Add garment
+                </button>
+                <button
+                  type="submit"
+                  class="px-8 py-3.5 rounded-2xl bg-blue-600 text-white hover:bg-blue-500 transition-colors text-base font-semibold shadow-sm shadow-blue-900/20 flex-grow sm:flex-grow-0 text-center justify-center flex"
+                >
+                  Create order
+                </button>
+              </div>
+              <p
+                id="createOrderMessage"
+                class="text-sm text-neutral-400 min-h-5"
+              ></p>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <!-- Orders Section -->
+      <section
+        class="bg-neutral-900/80 border border-neutral-800 rounded-3xl p-6 md:p-8 backdrop-blur-xl flex flex-col gap-6 mt-2 md:mt-0"
+      >
+        <!-- Section Header & Filters -->
+        <div class="flex flex-col gap-6">
+          <div
+            class="flex flex-col sm:flex-row sm:items-end justify-between gap-4"
+          >
+            <div class="flex flex-col gap-2">
+              <h2 class="text-2xl font-semibold tracking-tight text-white">
+                Orders
+              </h2>
+              <p class="text-base text-neutral-400">
+                Update status inline from the table.
+              </p>
+            </div>
+            <button
+              id="refreshOrders"
+              type="button"
+              class="px-6 py-3.5 rounded-2xl bg-neutral-800 text-white hover:bg-neutral-700 transition-colors text-base font-medium shadow-sm flex items-center justify-center gap-2 flex-shrink-0"
+            >
+              <i
+                data-lucide="refresh-cw"
+                stroke-width="1.5"
+                class="w-5 h-5"
+              ></i>
+              Refresh list
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="flex flex-col gap-2 md:col-span-1">
+              <label class="text-base font-medium text-neutral-400 pl-1"
+                >Status</label
+              >
+              <div class="relative">
+                <select
+                  id="statusFilter"
+                  class="w-full bg-neutral-950 border border-neutral-800 rounded-2xl pl-5 pr-12 py-4 text-base text-white appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner cursor-pointer"
+                >
+                  <option value="">All Statuses</option>
+                  <option value="RECEIVED">RECEIVED</option>
+                  <option value="PROCESSING">PROCESSING</option>
+                  <option value="READY">READY</option>
+                  <option value="DELIVERED">DELIVERED</option>
+                </select>
+                <i
+                  data-lucide="chevron-down"
+                  stroke-width="1.5"
+                  class="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500 pointer-events-none"
+                ></i>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2 md:col-span-3">
+              <label class="text-base font-medium text-neutral-400 pl-1"
+                >Search customer / phone</label
+              >
+              <div class="relative">
+                <i
+                  data-lucide="search"
+                  stroke-width="1.5"
+                  class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500 pointer-events-none"
+                ></i>
+                <input
+                  id="searchFilter"
+                  type="text"
+                  placeholder="Search..."
+                  class="w-full bg-neutral-950 border border-neutral-800 rounded-2xl pl-12 pr-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+          <div class="min-w-[1000px] flex flex-col">
+            <!-- Table Header -->
+            <div
+              class="grid grid-cols-12 gap-4 py-4 border-b border-neutral-800/80 text-sm font-medium text-neutral-500 tracking-wider uppercase mb-2"
+            >
+              <div class="col-span-2 pl-2">Order</div>
+              <div class="col-span-3">Customer</div>
+              <div class="col-span-3">Garments</div>
+              <div class="col-span-1 text-right">Total</div>
+              <div class="col-span-1 text-center">Status</div>
+              <div class="col-span-2 text-right pr-2">Actions</div>
+            </div>
+
+            <!-- Table Rows -->
+            <div id="ordersTable" class="flex flex-col gap-2"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const statusValues = ["RECEIVED", "PROCESSING", "READY", "DELIVERED"];
+      const ordersTable = document.getElementById("ordersTable");
+      const garmentsList = document.getElementById("garmentsList");
+      const createOrderMessage = document.getElementById("createOrderMessage");
+      const totalOrders = document.getElementById("totalOrders");
+      const totalRevenue = document.getElementById("totalRevenue");
+      const receivedCount = document.getElementById("receivedCount");
+      const processingCount = document.getElementById("processingCount");
+      const readyCount = document.getElementById("readyCount");
+      const deliveredCount = document.getElementById("deliveredCount");
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function statusBadgeClass(status) {
+        if (status === "DELIVERED") {
+          return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        }
+
+        if (status === "PROCESSING") {
+          return "bg-amber-500/10 text-amber-400 border-amber-500/20";
+        }
+
+        if (status === "READY") {
+          return "bg-violet-500/10 text-violet-400 border-violet-500/20";
+        }
+
+        return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+      }
+
+      async function requestJson(url, options = {}) {
+        const response = await fetch(url, {
+          headers: { "Content-Type": "application/json" },
+          ...options,
+        });
+
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          try {
+            const payload = await response.json();
+            errorMessage = payload.error || JSON.stringify(payload);
+          } catch {
+            const text = await response.text();
+            if (text) errorMessage = text;
+          }
+          throw new Error(errorMessage || "Request failed");
+        }
+
+        return response.json();
+      }
+
+      function addGarmentRow(values = {}) {
+        const row = document.createElement("div");
+        row.className =
+          "flex flex-col sm:flex-row gap-4 items-stretch sm:items-center flex-wrap xl:flex-nowrap";
+        row.innerHTML = `
+                <input name="garment_name" type="text" placeholder="Shirt" value="${escapeHtml(values.name || "")}" required class="flex-grow bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner min-w-[120px]">
+                <input name="quantity" type="number" min="1" value="${Number.isFinite(values.quantity) ? values.quantity : 1}" required class="w-full sm:w-24 bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner">
+                <input name="price_per_item" type="number" min="0.01" step="0.01" value="${Number.isFinite(values.price_per_item) ? values.price_per_item : 50}" required class="w-full sm:w-28 bg-neutral-950 border border-neutral-800 rounded-2xl px-5 py-4 text-base text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner">
+                <button type="button" class="remove-garment hover:bg-neutral-800 hover:text-white transition-colors whitespace-nowrap flex text-base font-medium text-neutral-300 bg-red-500/10 text-red-500 hover:bg-red-500 border-neutral-700/50 hover:border-red-500 border rounded-2xl px-5 py-4 items-center justify-center flex-grow sm:flex-grow-0">Remove</button>
+            `;
+
+        row.querySelector(".remove-garment").addEventListener("click", () => {
+          if (garmentsList.children.length > 1) {
+            row.remove();
+          }
+        });
+
+        garmentsList.appendChild(row);
+      }
+
+      function garmentSummary(garments) {
+        return garments
+          .map((item) => `${item.name} x${item.quantity}`)
+          .join(", ");
+      }
+
+      async function refreshDashboard() {
+        const data = await requestJson("/dashboard");
+        totalOrders.textContent = data.total_orders;
+        totalRevenue.textContent = Number(data.total_revenue || 0).toFixed(2);
+        receivedCount.textContent = data.orders_per_status.RECEIVED || 0;
+        processingCount.textContent = data.orders_per_status.PROCESSING || 0;
+        readyCount.textContent = data.orders_per_status.READY || 0;
+        deliveredCount.textContent = data.orders_per_status.DELIVERED || 0;
+      }
+
+      async function refreshOrders() {
+        const status = document.getElementById("statusFilter").value;
+        const search = document.getElementById("searchFilter").value.trim();
+        const params = new URLSearchParams();
+
+        if (status) params.set("status", status);
+        if (search) params.set("search", search);
+
+        const query = params.toString();
+        const orders = await requestJson(`/orders${query ? `?${query}` : ""}`);
+
+        if (orders.length === 0) {
+          ordersTable.innerHTML = `
+                    <div class="py-8 text-center text-neutral-500 border border-neutral-800 rounded-2xl">
+                        No orders found.
+                    </div>
+                `;
+          return;
+        }
+
+        ordersTable.innerHTML = orders
+          .map(
+            (order) => `
+                <div class="grid grid-cols-12 gap-4 py-4 items-center bg-neutral-900/50 hover:bg-neutral-800/50 border border-transparent hover:border-neutral-800 rounded-2xl transition-colors px-2 -ml-2">
+                    <div class="col-span-2 flex flex-col gap-1">
+                        <span class="text-base font-semibold text-white">${escapeHtml(order.order_id.slice(0, 12))}</span>
+                        <span class="text-sm text-neutral-500">Del: ${escapeHtml(order.estimated_delivery_date)}</span>
+                    </div>
+                    <div class="col-span-3 flex flex-col gap-1">
+                        <span class="text-base text-neutral-200">${escapeHtml(order.customer_name)}</span>
+                        <span class="text-sm text-neutral-500">${escapeHtml(order.phone_number)}</span>
+                    </div>
+                    <div class="col-span-3 text-base text-neutral-300 truncate pr-4">
+                        ${escapeHtml(garmentSummary(order.garments))}
+                    </div>
+                    <div class="col-span-1 text-base font-medium text-white text-right">
+                        ${Number(order.total_amount).toFixed(2)}
+                    </div>
+                    <div class="col-span-1 flex justify-center">
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border uppercase tracking-wider ${statusBadgeClass(order.status)}">
+                            ${escapeHtml(order.status)}
+                        </span>
+                    </div>
+                    <div class="col-span-2 flex justify-end">
+                        <select data-order-id="${escapeHtml(order.order_id)}" class="statusSelect w-full max-w-[140px] bg-neutral-950 border border-neutral-700/50 rounded-xl px-4 py-2.5 text-sm text-white appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all cursor-pointer hover:border-neutral-600">
+                            ${statusValues.map((value) => `<option value="${value}" ${order.status === value ? "selected" : ""}>${value}</option>`).join("")}
+                        </select>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+
+        document.querySelectorAll(".statusSelect").forEach((select) => {
+          select.addEventListener("change", async (event) => {
+            const orderId = event.target.dataset.orderId;
+            await requestJson(`/orders/${encodeURIComponent(orderId)}/status`, {
+              method: "PATCH",
+              body: JSON.stringify({ status: event.target.value }),
+            });
+
+            await Promise.all([refreshOrders(), refreshDashboard()]);
+          });
+        });
+      }
+
+      document
+        .getElementById("addGarment")
+        .addEventListener("click", () => addGarmentRow());
+
+      document
+        .getElementById("createOrderForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+
+          const garmentNames = formData.getAll("garment_name");
+          const quantities = formData.getAll("quantity");
+          const prices = formData.getAll("price_per_item");
+
+          const payload = {
+            customer_name: String(formData.get("customer_name") || "").trim(),
+            phone_number: String(formData.get("phone_number") || "").trim(),
+            garments: garmentNames.map((name, index) => ({
+              name: String(name || "").trim(),
+              quantity: Number(quantities[index]),
+              price_per_item: Number(prices[index]),
+            })),
+          };
+
+          try {
+            await requestJson("/orders", {
+              method: "POST",
+              body: JSON.stringify(payload),
+            });
+
+            createOrderMessage.textContent = "Order created successfully.";
+            createOrderMessage.className = "text-sm text-emerald-400 min-h-5";
+
+            event.target.reset();
+            garmentsList.innerHTML = "";
+            addGarmentRow();
+            await Promise.all([refreshOrders(), refreshDashboard()]);
+          } catch (error) {
+            createOrderMessage.textContent = error.message;
+            createOrderMessage.className = "text-sm text-red-400 min-h-5";
+          }
+        });
+
+      document
+        .getElementById("refreshOrders")
+        .addEventListener("click", async () => {
+          await Promise.all([refreshOrders(), refreshDashboard()]);
+        });
+
+      document
+        .getElementById("statusFilter")
+        .addEventListener("change", refreshOrders);
+      document.getElementById("searchFilter").addEventListener("input", () => {
+        window.clearTimeout(window.searchTimer);
+        window.searchTimer = window.setTimeout(refreshOrders, 250);
+      });
+
+      addGarmentRow();
+      Promise.all([refreshOrders(), refreshDashboard()]).catch((error) => {
+        createOrderMessage.textContent = `Failed to load data: ${error.message}`;
+        createOrderMessage.className = "text-sm text-red-400 min-h-5";
+      });
+
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
